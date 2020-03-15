@@ -1,23 +1,33 @@
 import React from "react"
-import Layout from "../components/layout"
+import { graphql } from "gatsby"
 
-export default () => (
+import Layout from "../components/layout"
+import SEO from "../components/seo"
+import BackgroundSection from "../components/Globals/BackgroundSection"
+import AboutInfo from "../components/About/Info"
+
+const AboutPage = ({ data }) => (
   <Layout>
-    <div className="container text-center">
-      <h1>kwikoffie</h1>
-      <p className="lead text-muted">
-        Een denkbeeldige koffie-salon en ook verkooppunt, waar je dus zeker{" "}
-        <em>geen</em> verdovende drugs kunt kopen! Alleen maar koffie en wat
-        andere drankjes!
-      </p>
-      <p className="lead text-muted">
-        Bij het bouwen van deze site wordt de 'site-generator'{" "}
-        <a href="http://gatsbyjs.org" target="_blank" rel="noopener noreferrer">
-          Gatsby
-        </a>{" "}
-        gebruikt, overigens wel met behoorlijk wat ingewikkelde constructies.
-        Daar leer ik weer van; ik word steeds beter!
-      </p>
-    </div>
+    <SEO title="Home" />
+    <BackgroundSection
+      img={data.img.childImageSharp.fluid}
+      title="ons verhaal"
+      styleClass="about-background"
+    />
+    <AboutInfo />
   </Layout>
 )
+
+export const query = graphql`
+  {
+    img: file(relativePath: { eq: "about-background.jpeg" }) {
+      childImageSharp {
+        fluid {
+          ...GatsbyImageSharpFluid_tracedSVG
+        }
+      }
+    }
+  }
+`
+
+export default AboutPage
